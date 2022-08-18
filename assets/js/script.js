@@ -27,11 +27,11 @@ var print = function() {
 var hour = function() {
     var currentHour = moment().hour() 
 
-    for(var i=8; i<18; i++){
+    for(var i=1; i<11; i++){
         var taskArea = $("#task-"+i)  
         if(currentHour>i){
             $(taskArea).addClass("past");
-        } else if (currentHour === i){
+        }else if (currentHour === i){
             $(taskArea).addClass("present");
         }else{
             $(taskArea).addClass("future")
