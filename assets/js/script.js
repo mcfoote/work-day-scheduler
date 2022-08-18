@@ -79,9 +79,7 @@ $(".saveBtn").on("click", function(){
 var today = (moment().format("MMMM D, YYYY"))
 $("#currentDay").text(today);
 
-setInterval(function(){hourAudit();},1000*60*60);
-
-
+setInterval(function(){hour();},1000*60*60);
 
 load();
 hour();
