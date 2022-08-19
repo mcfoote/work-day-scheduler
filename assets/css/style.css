@@ -5,11 +5,20 @@ body {
 }
 
 p {
-  height: 85%;
+  height: 80%;
 }
 
-#task-item {
-  position: sticky;
+.formController {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 860px;
+  height: 80px;
+}
+
+.taskItem {
+  position: absolute;
+  left: 0;
   top: 0;
 }
 

@@ -1,5 +1,26 @@
+//empty array for tasks
 tasks = [];
 
+//grab date info from moment
+var today = (moment().format("MMMM D, YYYY"))
+$("#currentDay").text(today);
+
+setInterval(function(){hour();},1000*60*60);
+
+//print tasks to screen
+var print = function() {
+
+    $.each(tasks, function(list, arr){
+
+        var taskPara = $("<p>").addClass("description task-item-" + list).text(arr)
+
+        $("#task-item-" + list).replaceWith(taskPara);
+
+    })
+
+}
+
+// load tasks from local storage
 var load = function() {
 
     tasks = JSON.parse(localStorage.getItem("tasks"))
@@ -12,47 +33,32 @@ var load = function() {
 
 }
 
-var print = function() {
+//Color task containers
+var hourColor = function() {
 
-    $.each(tasks, function(list, arr){
+    var current = moment().hour() 
 
-        var taskP = $("<p>").addClass("description task-item-" + list).text(arr)
+    //starting at 8:00 cycle through 17:00
+    for(var i=8; i<18; i++){
 
-        $("#task-item-" + list).replaceWith(taskP);
-
-    })
-
-}
-
-var hour = function() {
-    var currentHour = moment().hour() 
-
-    for(var i=1; i<11; i++){
         var taskArea = $("#task-"+i)  
-        if(currentHour>i){
+
+        if(current>i){
+
             $(taskArea).addClass("past");
-        }else if (currentHour === i){
+
+        }else if (current === i){
+
             $(taskArea).addClass("present");
+
         }else{
+
             $(taskArea).addClass("future")
+
         }
     }
 
 }
-
-$(".taskContainer").on("click", "p", function(){
-    
-    var text =$(this)
-      .text()
-      .trim();
-    var input =$("<textarea>")
-      .addClass("form-control")
-      .val(text);
-  
-    $(this).replaceWith(input);
-     input.trigger("focus");
-
-  });
 
 $(".taskContainer").on("blur", "textarea", function() {
     
@@ -60,26 +66,40 @@ $(".taskContainer").on("blur", "textarea", function() {
       .val()
       .trim();
 
-    var taskP = $("<p>")
+    var taskPara = $("<p>")
       .addClass("taskItem")
       .text(text);
 
-    $(this).replaceWith(taskP);
+    $(this).replaceWith(taskPara);
 
 });
 
+//click functionality for task container
+$(".taskContainer").on("click", "p", function(){
+    
+    var text =$(this)
+      .text()
+      .trim();
+
+    var input =$("<textarea>")
+      .addClass("formController")
+      .val(text);
+  
+    $(this).replaceWith(input);
+     input.trigger("focus");
+
+});
+
+//Save tasks on click
 $(".saveBtn").on("click", function(){
         
           var index = $(".saveBtn").index(this);
         
           tasks[index] = $(this).parent().find(".taskItem").text();
           localStorage.setItem("tasks", JSON.stringify(tasks));
+          
 });
 
-var today = (moment().format("MMMM D, YYYY"))
-$("#currentDay").text(today);
-
-setInterval(function(){hour();},1000*60*60);
-
+//function calls
 load();
-hour();
+hourColor();
